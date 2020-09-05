@@ -1,0 +1,26 @@
+<nav class="library-header-nav">
+    <ul class="library-header-menu-items">
+        <li class="library-header-drop-down">Products
+            <ul>
+                <li><a href={% url 'library-type' type_id='software' %}>Software</a></li>
+                <li><a href={% url 'library-type' type_id='idp' %}>IDP</a></li>
+                <li><a href={% url 'library-type' type_id='mfp' %}>MFP</a></li>
+            </ul>
+        </li>
+        <li class="library-header-drop-down">Product Information
+            <ul>
+                <li><a href={% url 'library-option' %}>Options</a></li>
+                <li><a href={% url 'library-supply' %}>Supplies</a></li>
+                <li><a href={% url 'library-firmware' %}>Firmware</a></li>
+            </ul>
+        </li>
+        <li class="library-header-drop-down">Resolutions
+            <ul>
+                <li><a href="{% url 'resolutions-tech-tip' %}">Tips</a></li>
+                <li><a href="{% url 'resolution-manual' %}">Manual</a></li>
+                <li><a href="{% url 'user-fix' %}">User Fix</a></li>
+                <li><a href="{% url 'resolutions-error' %}">Error</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>

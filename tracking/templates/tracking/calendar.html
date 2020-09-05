@@ -1,0 +1,20 @@
+{% for week, days in cal.items %}
+    <tr class="daily-views-rows">
+        {% for day, count in days.items %}
+            <td style="position: relative">
+                <div style="position: absolute; top: 0; left: 50%; transform: translate(-50%)">
+                    {{ day|date:'jS' }}<br>
+                </div>
+                {% if count %}
+                    <div style="position: absolute; bottom: 10px; left: 50%; transform: translate(-50%); font-size: 0.90rem;">
+                        {{ count }} views
+                    </div>
+                {% else %}
+                    <div style="position: absolute; bottom: 10px; left: 50%; transform: translate(-50%); font-size: 0.90rem;">
+                        &#9866;
+                    </div>
+                {% endif %}
+            </td>
+        {% endfor %}
+    </tr>
+{% endfor %}

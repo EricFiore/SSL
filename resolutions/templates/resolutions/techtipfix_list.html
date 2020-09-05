@@ -1,0 +1,20 @@
+{% extends 'library/library_base.html' %}
+{% block content %}
+    <section id="tech-tip-statistics-header">
+        <h3 style="text-transform: uppercase" class="library-top-margin library-center-text">Statistics for tech tips stored on SSL</h3>
+        {% include 'resolutions/stastical_choice_form.html' %}
+        <hr class="library-family-hr">
+    </section>
+    <div class="library-flex resolution-list-main">
+        <section style="width: 75%" id="statistics-for-time-period-x">
+            <div class="library-center-text" style="margin-top: 100px">
+                This page contains different types of tables.
+                <br>
+                Each contain different statistical information about Tech Tips
+                <br>
+                Please choose the type of table you would like to see in the dropdown above.
+            </div>
+        </section>
+        {% include 'resolutions/statistical_sidebar.html' %}
+    </div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'library/library_base.html' %}
+{% block content %}
+    <div class="border-bottom text-center mb-0">
+        <h1>{{ supply.supply_number }}</h1>
+    </div>
+    <div class="text-center pt-0 mt-0 mb-4">
+        <h5>This supply item includes:<br>{{ supply.supply_content }}</h5>
+    </div>
+    <div class="text-center">
+        <p>Life of {{ supply.supply_number }} is rated at {{ supply.supply_life }}</p>
+        <div>
+            <p class="m-0">Please see below for any relevant notes on this supply item:</p>
+            <p class="m-0">{{ supply.supply_comments }}</p>
+        </div>
+    </div>
+    <div class="text-center m-4">
+        <h5>See below for models the {{ supply.supply_number }} fits into and what other
+            <span class="text-lowercase">{{ supply.supply_type }}</span> supply items those models take:</h5>
+        <table class="table table-striped table-sm library-tables">
+            <thead>
+                <tr>
+                    <th>Model</th>
+                    {% for sup in allSupplies %}
+                        <th>{{ sup.supply_number }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for device in relatedModels %}
+                    <tr>
+                        <td><a href="{{ device.get_absolute_url }}">{{ device.model_number }}</a></td>
+                        {% for sup in allSupplies %}
+                            {% if device in sup.model_id.all %}
+                                <td>&#10005</td>
+                            {% elif device not in sup.model_id.all %}
+                                <td> </td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}

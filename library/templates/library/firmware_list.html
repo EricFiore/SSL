@@ -1,0 +1,111 @@
+{% extends 'library/library_base.html' %}
+{% block content %}
+    <section id="title section" class="library-top-margin library-center-text">
+        <h3>Firmware</h3>
+    </section>
+    <section>
+        <div class="library-firmware-list-flex">
+            <div class="library-firmware-side-bar">
+                <div>
+                    <fieldset>
+                        <form action="" method="get" target="_self" id="firmware-filter-items">
+                            <strong>Firmware Type:</strong>
+                            <ul class="library-firmware-side-bar-text">
+                                {% for type in firmware_types %}
+                                    <li class="library-firmware-list-flex">
+                                        <div>
+                                            <input type="checkbox" id="{{ type }}" name="type" value="{{ type }}"
+                                                {% for t in queried_types %}{% if t == type.type %}checked{% endif %}{% endfor %}>
+                                        </div>
+                                        <div style="margin: 0 10px 0">
+                                            <label for="{{ type }}">{{ type }}</label>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <button type="submit">Apply</button>
+                            <br><strong>Family:</strong>
+                            <ul class="library-firmware-side-bar-text">
+                                {% for family in families %}
+                                    <li class="library-firmware-list-flex">
+                                        <div>
+                                            <input type="checkbox" id="{{ family }}" name="family" value="{{ family }}"
+                                               {% for f in queried_families %}{% if f == family.family_name %}checked{% endif %}{% endfor %}>
+                                        </div>
+                                        <div style="margin: 0 10px 0">
+                                            <label for="{{ family }}">{{ family }}</label>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <button type="submit">Apply</button>
+                            <div class="library-firmware-side-bar-text">
+                                <br><strong>Date Range</strong>
+                                <label class="library-firmware-date-label" for="library-firmware-date-range-start">Start</label>
+                                <input type="date" id="library-firmware-date-range-start" name="date" value="{{ start_date }}">
+                                <br><label class="library-firmware-date-label" for="library-firmware-date-range-end">End</label>
+                                <input type="date" id="library-firmware-date-range-end" name="date" value="{{ end_date }}">
+                            </div>
+                            <button type="submit">Apply</button>
+                        </form>
+                    </fieldset>
+                </div>
+            </div>
+            <div id="list-of-firmware" style="flex: 1 0 85%">
+                {{ page_list }}
+                {% for firmware,    families in firmware_dict.items %}
+                    {% for family, models in families.items %}
+                        <div class="library-firmware-container">
+                            <div class="library-firmware-card-title library-center-text">
+                                Release Date: {{ firmware.release_date }}
+                                {{ firmware.firmware_type }} firmware<br>
+                                Version {{ firmware.version }}
+                            </div>
+                            <hr style="margin-top: 0">
+                            <div style="justify-content: space-between" class="library-firmware-card-items library-flex">
+                                <div style="margin-left: 8px">
+                                    Works on: {{ family }}
+                                    <div class="hidden">
+                                        {% for model in models %}
+                                            {{ model }}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div style="margin-right: 8px">
+                                    {{ firmware.description }}
+                                </div>
+                            </div>
+                            <div style="padding-bottom: 1.5rem">
+                                <a href="{% url 'library-firmware-detail' slug=firmware.slug %}">
+                                    <div class="paper" data-firmware-content="changes-outer-div">
+                                        <div style="padding-top: 1.2rem" class="library-center-div" data-firware-content="change">
+                                            {{ firmware.changes|safe|truncatechars_html:200 }}
+                                        </div>
+                                    </div>
+                                    <div class="library-center-text library-firmware-click-card hidden" data-firmware-content="tan-box">
+                                        click box to see firmware information
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+{#                <div>#}
+{#                    <span>#}
+{#                        {% if page_obj.has_previous %}#}
+{#                            <a href="?page=1">&laquo; first</a>#}
+{#                            <a href="?page={{ page_obj.previous_page_number }}">previous</a>#}
+{#                        {% endif %}#}
+{#                        <span>#}
+{#                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}#}
+{#                        </span>#}
+{#                        {% if page_obj.has_next %}#}
+{#                            <a href="?page={{ page_obj.next_page_number }}">next</a>#}
+{#                            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>#}
+{#                        {% endif %}#}
+{#                    </span>#}
+{#                </div>#}
+            </div>
+        </div>
+    </section>
+{% endblock content %}

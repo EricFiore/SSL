@@ -1,0 +1,36 @@
+{% extends 'library/library_base.html' %}
+{% block content %}
+    <section>
+        <div class="library-center-text library-top-margin">
+            <h3>Manual Fix for {{ manualfix.repairs_error}}</h3>
+        </div>
+        <hr class="library-family-hr">
+    </section>
+    <section class="library-firmware-list-flex flex-center-items">
+        <div class="paper res-steps">
+            <div class="library-center-div">
+                {{ manualfix.steps_to_fix_error|safe }}
+            </div>
+        </div>
+        <div class="paper res-steps">
+            <div class="library-center-div small-list library-center-text">
+                <div>
+                    Works On:
+                </div>
+                <div>
+                    {% for model in manualfix.model_id.all %}
+                        {{ model.model_number }}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="res-tt-small-list library-center-text">
+            <div class="top-margin-20">
+                FIX ID: {{ manualfix.id }}
+            </div>
+        </div>
+    </section>
+    {% include 'resolutions/comments.html' %}
+{% endblock content %}

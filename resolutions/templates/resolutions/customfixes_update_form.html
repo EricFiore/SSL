@@ -1,0 +1,46 @@
+{% extends 'library/library_base.html' %}
+{% block content %}
+    <section>
+        <div class="library-center-text library-top-margin">
+            <h3>Update Fix</h3>
+        </div>
+        <hr class="library-family-hr">
+    </section>
+    <fieldset style="margin-bottom: 50px">
+        <form action="" method="post" target="_self" id="user-fix-update-form">
+            {% csrf_token %}
+            {{ update_form.errors }}
+            <div class="res-new-fix-choices">
+                <div>
+                    <div>
+                        {{ update_form.repairs_error.help_text }}
+                    </div>
+                    <div>
+                        {{ update_form.repairs_error }}
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        {{ update_form.model_id.help_text }}
+                    </div>
+                    <div>
+                        {{ update_form.model_id }}
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="library-center-text">
+                    <div class="res-new-fix-text-boxes">
+                        {{ update_form.symptoms.help_text }}<br>
+                        {{ update_form.symptoms }}
+                    </div>
+                    <div class="res-new-fix-text-boxes">
+                        {{ update_form.steps_to_fix_error.label }}
+                        {{ update_form.steps_to_fix_error }}
+                    </div>
+                </div>
+            </div>
+            <button class="centered-button" type="submit">UPDATE</button>
+        </form>
+    </fieldset>
+{% endblock %}

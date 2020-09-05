@@ -1,0 +1,27 @@
+<section style="margin-top: 50px" title="comment-section" id="comments">
+    <div class="res-fix-comment-section" id="user-comments">
+        {% if comments %}
+            {% for comment in comments %}
+                <div>
+                    <div class="res-fix-comment-title library-flex flex-opposite-ends-flex small-list highlight-name">
+                        <div>
+                            <img style="margin: 0; padding: 0;" class="x-small-image" src="{{ comment.author.image.url }}" alt="commenter photo">
+                            {{ comment.author.user }}
+                        </div>
+                        <div>
+                            {{ comment.date_comment_made }}
+                        </div>
+                    </div>
+                    <div>
+                        {{ comment.comment }}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <form method="post" id="user-comment-form" action="" name="user-comment-form">
+            {% csrf_token %}
+            {{ comment_form.comment }}
+            <button class="" type="submit">COMMENT</button>
+        </form>
+    </div>
+</section>

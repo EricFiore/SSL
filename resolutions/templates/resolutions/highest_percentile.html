@@ -1,0 +1,76 @@
+{% extends 'library/library_base.html' %}
+{% block content %}
+    <section id="tech-tip-statistics-header">
+        <h3 style="text-transform: uppercase" class="library-top-margin library-center-text">Statistics for {{ data_type }} stored on SSL</h3>
+        {% include 'resolutions/stastical_choice_form.html' %}
+        <hr class="library-family-hr">
+    </section>
+    <div class="library-flex" style="justify-content: space-between; margin-top: 30px">
+        <section style="width: 75%" id="statistics-for-time-period-x">
+            <form class="statistical-date-form" action="" method="get">
+                <h5 class="library-center-text">
+                    below is the top <span style="font-size: 0.95rem">{{ date_form.percentile }}</span> requested {{ data_type }} for
+                    </h5>
+                <div id="form-errors">
+                    {% for key, error in date_form.errors.items %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                {{ date_form.start_date }}
+                through
+                {{ date_form.end_date }}
+                <div>
+                    <button type="submit">Filter</button>
+                </div>
+                {% csrf_token %}
+            </form>
+            <div>
+                <table class="statistical-table">
+                    {% if start_date and end_date %}
+                        <caption style="font-size: 0.70rem;">
+                            1) current views defined as page views occurring between {{ start_date }} and {{ end_date }}<br>
+                            2) previous views defined as page views occurring between {{ previous_start_date }} and {{ previous_end_date }}
+                        </caption>
+                    {% endif %}
+                    <tr>
+                        <th>item</th>
+                        <th>current views<small>(1)</small></th>
+                        <th>previous views<small>(2)</small></th>
+                        <th>percentage change</th>
+                        <th>&#37; current views<small>(1)</small></th>
+                    </tr>
+                    {% if comparison_views.items %}
+                    {% for keys, items in comparison_views.items %}
+                    <tr>
+                        {% if data_type == 'Tech Tip' %}
+                            <td><a href="{% url 'resolutions-tech-tip-detail' slug=items.item_number%}">{{ items.item_number }}</a></td>
+                        {% elif data_type == 'User Fix' %}
+                            <td><a href="{% url 'user-fix-detail' slug=items.item_number%}">{{ items.item_number }}</a></td>
+                        {% elif data_type == 'Manual Fix'%}
+                            <td><a href="{% url 'resolution-manual-detail' slug=items.item_number%}">{{ items.item_number }}</a></td>
+                        {% elif data_type == 'Error' %}
+                            <td><a href="{% url 'resolutions-error-detail' slug=items.item_number%}">{{ items.item_number }}</a></td>
+                        {% else %}
+                            <td>{{ items.item_number }}</td>
+                        {% endif %}
+                        <td>{{ items.number_of_views }}</td>
+                        <td>{{ items.previous_views }}</td>
+                        <td>{% if items.change %}{{ items.change }}&#37;{% else %}&#8212{% endif %}</td>
+                        <td>{{ items.current_percentage_views }}&#37;</td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>NO DATA</td>
+                            <td>NO DATA</td>
+                            <td>NO DATA</td>
+                            <td>NO DATA</td>
+                            <td>NO DATA</td>
+                        </tr>
+                    {% endif %}
+                </table>
+            </div>
+        </section>
+        {% include 'resolutions/statistical_sidebar.html' %}
+    </div>
+{% endblock %}

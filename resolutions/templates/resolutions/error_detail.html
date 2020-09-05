@@ -1,0 +1,151 @@
+{% extends 'library/library_base.html' %}
+{% block content %}
+    <div class="border-bottom library-top-margin text-center mb-0">
+        <h1>{{ error.error_name}}</h1>
+    </div>
+    <div class="text-center pt-0 mb-4">
+        <h5>{{ error.error_title }}</h5>
+    </div>
+    <div class="text-center">
+        {{ error.error_description }}
+    </div>
+    <div>
+        <div style="padding-left: 5px">
+            <input class="category-search" autofocus placeholder="type here to search for solutions" type="text" id="error-search" autocomplete="off">
+        </div>
+        <div class="error-container">
+            <div class="error-categories">
+                <div class="category-text">{{ manualFix_count }} Manual Fixes found on
+                    {{ manualFix_modelCount }} devices</div>
+            </div>
+            <div class="error-details">
+                <div class="hidden" id="manual-models">
+{#                    Stricly here to get data into javascript#}
+                    {% for fix, models in manual_fixes.items %}
+                        {% for model in models %}
+                            <p>{{ model.model_number }}`{{ fix.steps_to_fix_error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+                <div class="error-details" id="manual-fixes">
+                        {% for fix, models in manual_fixes.items %}
+                            {% for model in models %}
+                                <div class="error-detail-outer-wrapper hidden" id="man-{{ model.model_number|lower }}">
+                                    <div class="error-detail-wrapper">
+                                        <div class="error-callouts">
+                                            Manual Fix
+                                        </div>
+                                        <div>
+                                            {{ fix.steps_to_fix_error|safe }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="error-container">
+            <div class="error-categories">
+                <div class="category-text">{{ techTip_count }} Tech Tips on
+                    {{ techTip_modelCount }} devices</div>
+            </div>
+            <div class="error-details">
+                <div class="hidden" id="tip-models">
+{#                strictly here to get data into javascript#}
+                    {% for tip, models in tech_tips.items %}
+                        {% for model in models %}
+                            <p>{{ model.model_number }}`TT Number: {{ tip.tech_tip_number }}
+                                TT Title {{ tip.tech_tip_title }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+                <div class="error-details" id="tip-fixes">
+                    {% for tip, models in tech_tips.items %}
+                        {% for model in models %}
+                            <div class="error-detail-outer-wrapper hidden" id="tip-{{ model.model_number|lower }}">
+                                <div class="error-detail-wrapper">
+                                    <div class="error-callouts">
+                                        Tech Tip
+                                    </div>
+                                    <div>
+
+                                    </div>
+                                    <div class="error-callouts">
+                                        -Number:
+                                    </div>
+                                    <div>
+                                        {{ tip.tech_tip_number }}
+                                    </div>
+                                    <div class="error-callouts">
+                                        -Title:
+                                    </div>
+                                    <div>
+                                        {{ tip.tech_tip_title }}
+                                    </div>
+                                    <div class="error-callouts">
+                                        -Content:
+                                    </div>
+                                    <div>
+                                        {{ tip.tech_tip_content|truncatechars:150|safe }}
+                                    </div>
+                                </div>
+                                <div class="accordion">
+                                    <div class="paper">
+                                        <div>
+                                            <img style="width: 100%" src="/media/site_photos/tech-tip-title.jpg">
+                                        </div>
+                                        {{ tip.tech_tip_content|safe }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="error-container">
+            <div class="error-categories">
+                <div class="category-text">{{ customFix_count }} custom fixes on
+                    {{ customFix_modelCount }} devices</div>
+            </div>
+            <div class="error-details">
+                <div class="hidden" id="custom-models">
+{#                strictly here to get data into javascript#}
+                    {% for fix, models in custom_fixes.items %}
+                        {% for model in models %}
+                            <p>{{ model.model_number }}`TT Number: {{ fix.steps_to_fix_error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+                <div class="error-details" id="custom-fixes">
+                    {% for fix, models in custom_fixes.items %}
+                        {% for model in models %}
+                            <div class="error-detail-outer-wrapper hidden" id="cust-{{ model.model_number|lower }}">
+                                <div>
+                                    <a class="mr-2" href="#">{{ fix.author.user }}</a>
+                                    <small class="text-muted">
+                                        created on: {{ fix.created_on_date|date:"M d Y G:i"  }} &#124
+                                        {% if fix.created_on_date|date:"M d Y G:i" == fix.modified_on_date|date:"M d Y G:i" %}
+                                            modified on: never modified
+                                        {% else %}
+                                            modified on: {{ fix.modified_on_date|date:"M d Y G:i" }}
+                                        {% endif %}
+                                    </small>
+                                    <div>
+                                        <small>
+                                        fix ID {{ fix.id_number }}
+                                    </small>
+                                    </div>
+                                <div>
+                                    {{ fix.steps_to_fix_error|safe }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,47 @@
+{% extends 'library/library_base.html' %}
+{% block content %}
+    <section>
+        <div class="library-center-text library-top-margin">
+            <h3>Create New Fix</h3>
+            <div>
+                Please make sure to verify the fix you are entering is not already in the database.
+            </div>
+        </div>
+        <hr class="library-family-hr">
+    </section>
+    <fieldset style="margin-bottom: 50px">
+        <form action="" method="post" target="_self" name="custom-fix-create-form" id="custom-fix-create-form">
+            {% csrf_token %}
+            <div class="res-new-fix-choices">
+                <div>
+                    <div>
+                        {{ create_form.repairs_error.help_text }}
+                    </div>
+                    <div>
+                        {{ create_form.repairs_error }}
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        {{ create_form.model_id.help_text }}
+                    </div>
+                    <div>
+                        {{ create_form.model_id }}
+                    </div>
+                </div>
+            </div>
+            {{ create_form.errors }}
+            <div class="library-center-text">
+                <div class="res-new-fix-text-boxes">
+                    {{ create_form.symptoms.help_text }}<br>
+                    {{ create_form.symptoms }}
+                </div>
+                <div class="res-new-fix-text-boxes">
+                    {{ create_form.steps_to_fix_error.label }}
+                    {{ create_form.steps_to_fix_error }}
+                </div>
+            </div>
+            <button class="centered-button" type="submit">Save</button>
+        </form>
+    </fieldset>
+{% endblock %}

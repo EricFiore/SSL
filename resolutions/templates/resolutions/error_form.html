@@ -1,0 +1,42 @@
+{% extends 'library/library_base.html' %}
+{% block content %}
+    <section id="new-error-form">
+        <div class="library-center-text library-top-margin">
+            <h3>New Error Form</h3>
+            <hr class="library-family-hr">
+        </div>
+        <form action="" method="post" name="new-error-form" id="new-item-form">
+            {% csrf_token %}
+            <div class="new-item-form library-flex" id="page-form">
+                <div id="form-labels" class="form-labels">
+                    <div id="label-one" data-form="label-one">
+                        {{ form.error_name.label }}
+                    </div>
+                    <div id="label-two" data-form="label-two">
+                        {{ form.error_title.label }}
+                    </div>
+                    <div id="label-three" data-form="label-three">
+                        {{ form.error_description.label }}
+                    </div>
+                </div>
+                <div id="form-inputs" class="form-inputs">
+                    <div id="input-one" data-form ="input-one">
+                        {{ form.error_name }}<br>
+                        {{ form.error_name.help_text }}
+                    </div>
+                    <div id="input-two" data-form ="input-two">
+                        {{ form.error_title }}<br>
+                        {{ form.error_title.help_text }}
+                    </div>
+                    <div id="input-three" data-form ="input-three">
+                        {{ form.error_description }}<br>
+                        {{ form.error_description.help_text }}
+                    </div>
+                </div>
+            </div>
+            <div id="error-form-submit-button">
+                <button type="submit">Create</button>
+            </div>
+        </form>
+    </section>
+{% endblock %}

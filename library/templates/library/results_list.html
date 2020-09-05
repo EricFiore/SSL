@@ -1,0 +1,17 @@
+{% extends 'library/library_base.html' %}
+{% block content %}
+<div style="margin-top: 10px; margin-left: 35px">
+    {% for result in search_results %}
+        <div class="library-search-result">
+            {% if result.model_number %}
+                {% ifchanged result.family_id.family_name %}
+                    <p>{{ result.family_id.family_name }}</p>
+                {% endifchanged %}
+                <p>{{ result.model_number }}</p>
+            {% else %}
+                <p>{{ result }}</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

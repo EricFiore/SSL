@@ -1,0 +1,65 @@
+{% extends 'library/library_base.html' %}
+{% block content %}
+    <section>
+        <div class="library-center-text library-top-margin">
+            {% if families %}
+                <h2>{{ families.first.type_id }} Families</h2>
+            {% elif types %}
+                <h2>Option Types</h2>
+            {% elif supplies %}
+                <h2>Supplies</h2>
+            {% endif %}
+            <hr class="library-family-hr">
+        </div>
+    </section>
+    <section>
+        <div class="library-error-container library-center-div">
+            {% if families %}
+                {% for family in families %}
+                    <div class="library-card">
+                        <div class="library-center-text library-family-card-title">
+                            <a href="{{ family.get_absolute_url }}">{{ family.family_name }}</a>
+                        </div>
+                        <div class="library-flex">
+                            {% for model in family.productmodel_set.all %}
+                                <div style="flex: 1 0 45%;" class="library-center-text">
+                                    <a href="{{ model.get_absolute_url }}">{{ model.model_number }}</a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% elif types %}
+                {% for type in types %}
+                    <div class="library-card">
+                        <div class="library-center-text library-family-card-title">
+                            {{ type.type }}
+                        </div>
+                        <div class="library-flex">
+                            {% for model in type.option_set.all %}
+                            <div style="flex: 1 0 45%;" class="library-center-text">
+                                <a href="{{ model.get_absolute_url }}">{{ model.option_model_number }}</a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% elif supplies %}
+                {% for supply in supplies %}
+                    <div class="library-card">
+                        <div class="library-center-text library-family-card-title">
+                            {{ supply.supply_type }}
+                        </div>
+                        <div class="library-flex">
+                            {% for item in supply.supply_set.all %}
+                            <div style="flex: 1 0 45%;" class="library-center-text">
+                                <a href="{{ item.get_absolute_url }}">{{ item.supply_number }}</a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+{% endblock content %}

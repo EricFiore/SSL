@@ -1,0 +1,38 @@
+{% extends 'library/library_base.html' %}
+{% block content %}
+    <div class="border-bottom library-center-text res-tt-title library-top-margin">
+        <h3>{{ tech_tip.tech_tip_number}}</h3>
+    </div>
+    <div class="library-center-text pt-0 mt-0 mb-4">
+        <h5>{{ tech_tip.tech_tip_title }}</h5>
+    </div>
+    <div class="res-tt-models">
+        <div>
+            Works On:
+        </div>
+        <div>
+            {% for model in tech_tip.model_id.all %}
+                {{ model.model_number }}
+            {% endfor %}
+        </div>
+    </div>
+    <section class="paper">
+        <div>
+            <img style="width: 100%" src="/media/site_photos/tech-tip-title.jpg">
+        </div>
+        <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="text-center">Solution:</div>
+            {{ tech_tip.tech_tip_content|safe }}
+        </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                {% for pic in pics %}
+                    <img class="mx-auto d-block" src="{{ pic.photo.url }}">
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% include 'resolutions/comments.html' %}
+{% endblock content %}

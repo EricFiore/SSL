@@ -1,0 +1,36 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+    <h3>Recent Posts</h3>
+    {% for featured in featured_article %}
+        <article class="blog-article-container">
+                <div class="article-photo-container">
+                    <img src="{{ featured.article_image.url }}" class="image-thumbnail article-featured-photo">
+                </div>
+                <div class="article-teaser">
+                    <div class="article-metadata">
+                        <a class="mr-2" href="#">{{ featured.author }}</a>
+                        <small class="text-muted">{{ featured.date_posted|date:"M d Y G:i"  }}</small>
+                        <h2><a class="article-title" href="{% url 'post-detail' featured.id %}">{{ featured.title }}</a></h2>
+                        <p class="article-content">{{ featured.content|safe|truncatechars:450 }}</p>
+                    </div>
+                </div>
+        </article>
+        {% endfor %}
+        <div class="blog-article-container">
+            {% for article in secondary_article %}
+                <article>
+                    <div class="article-photo-container">
+                        <img src="{{ article.article_image.url }}" class="article-photo">
+                    </div>
+                    <div class="article-teaser">
+                        <div class="article-metadata">
+                            <a class="mr-2" href="#">{{ article.author }}</a>
+                            <small class="text-muted">{{ article.date_posted|date:"M d Y G:i"  }}</small>
+                        </div>
+                        <h2><a class="article-title" href="{% url 'post-detail' article.id %}">{{ article.title }}</a></h2>
+                        <p class="article-content">{{ article.content|truncatechars:235 }}</p>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+{% endblock content %}

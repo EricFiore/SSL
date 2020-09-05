@@ -1,0 +1,117 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/library.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&display=swap" rel="stylesheet">
+    {% if title %}
+        <title>Sharp Support Library - {{ title }}</title>
+    {% else %}
+        <title>Sharp Support Library</title>
+    {% endif %}
+</head>
+<body style="margin: 0; padding: 0; background: #edeef2;">
+        <section id="library-home-background">
+            <div id="library-home-heading">
+                <h1>Welcome to the SSL Library</h1>
+                <p>This area can be used for researching information for Sharp software and hardware</p>
+                <p>See below for more information</p>
+                <div class="library-model-family-search-container">
+                    <form method="get" action="">
+                        {% if form.non_field_errors %}
+                            {{ form.non_field_errors }}
+                        {% endif %}
+                        {% if form.search.errors %}
+                            {{ form.search.errors }}
+                        {% endif %}
+                        {{ form.search }}
+                        <input type="submit" value="Search">
+                        {% csrf_token %}
+                    </form>
+{#                    <form method="get" action="{% url 'library-results' %}">#}
+{#                        <label for="library-search" style="font-size: 12px;">#}
+{#                            <input id="library-search" class="library-model-family-search" type="text"#}
+{#                                   name="q" value="" placeholder="Enter model number, option number, family name, etc">#}
+{#                        </label>#}
+{#                        <input type="submit" value="Search" class="library-model-family-search-button">#}
+{#                        {% csrf_token %}#}
+{#                    </form>#}
+                </div>
+            </div>
+            <div class="library-arrow-container">
+                <div class="arrow-down"></div>
+            </div>
+        </section>
+        <div class="library-home-outer-container library-flex">
+            <div class="library-informational">
+                <img class="library-icon-small" src="/media/site_photos/database.svg" alt="database storage">
+                <h3>Types of Data</h3>
+                <div>
+                    <p>The SSL library houses information on Sharp&#x2122 developed software and hardware and related items.
+                This translates to being able to information on a particular device as well any option that unit supports, supplies the unit consumes
+                    , manuals that explain functionality, and firmware used by the unit</p>
+                </div>
+                <p>More info here <i>place link here</i></p>
+            </div>
+            <div class="library-informational">
+                <img class="library-icon-small" src="/media/site_photos/url.svg" alt="url">
+                <h3>URL Patterns</h3>
+                <div>
+                    <p>Finding information on a specific model is as simple as entering in the correct URL.
+                All URLs in the library module begin with the keyword 'library'.
+                The subsequent keywords will follow a pattern &ltmodel type&gt&ltmodel family&gt&ltmodel number&gt.
+                For example, if I would like to find information on the MX-3071 I would enter 127.0.0.1:8000/library/mfp/phoenix-two/mx-3071</p>
+                </div>
+                <p>More info here <i>place link here</i></p>
+            </div>
+            <div class="library-informational">
+                <img class="library-icon-small" src="/media/site_photos/search.svg" alt="magnifying glass looking at website">
+                <h3>Searching Models</h3>
+                <div>
+                    <p>Search has been implemented to ease the task of finding a model, or family, page.
+                Entering a model or family name in the above search will return a list of related items.
+                Each item will be clickable and will bring you directly to that items page.</p>
+                </div>
+                <p>More info here <i>place link here</i></p>
+            </div>
+        </div>
+        <div class="library-home-outer-container">
+            <div class="library-home-inner-container library-flex ">
+                <div class="library-card-title library-text-underline">fun facts</div>
+                <div class="library-cards">
+                    <img class="library-home-icon" src="/media/site_photos/technology.svg">
+                    <h3>{{ model_count }}</h3>
+                    <h4>models in database</h4>
+                    <p>and growing</p>
+                </div>
+                <div class="library-cards">
+                    <img class="library-home-icon" src="/media/site_photos/user.svg" alt="user">
+                    <h3>{{ user_count }}</h3>
+                    <h4>registered users</h4>
+                    <p>learning more</p>
+                </div>
+                <div class="library-cards">
+                    <img class="library-home-icon" src="/media/site_photos/document.svg" alt="document">
+                    <h3>0</h3>
+                    <h4>documents</h4>
+                    <p>added monthly</p>
+                </div>
+            </div>
+        </div>
+        <div class="library-home-outer-container">
+            <div class="library-home-inner-container library-home-key-container">
+                <img src="/media/site_photos/key.svg" alt="key">
+                <h4>
+                     We understand the key to minimizing research time is making the search for data simple.
+                    For that reason, we have designed this site with simplicity in mind.
+                    Through site organization and easy search, finding the exact data your are looking for can be done quickly.
+                </h4>
+                <hr class="library-home-hr">
+            </div>
+        </div>
+    </body>
+</html>

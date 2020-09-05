@@ -1,0 +1,57 @@
+<section class="statistical-secondary-info">
+            <div class="statistical-secondary-info-card">
+                <div class="statistical-secondary-info-title">
+                    Newest {{ data_type }}
+                </div>
+                <div class="statistical-secondary-info-body">
+                    {% for item, value in recent.items %}
+                        <div class="capitalize">
+                            {% if data_type == 'Tech Tip' %}
+                                <a href="{% url 'resolutions-tech-tip-detail' slug=item%}">{{ value.id }}</a>
+                                <p class="submenu-text">{{ value.title|safe|truncatechars_html:40 }}</p>
+                            {% elif data_type == 'User Fix' %}
+                                <a href="{% url 'user-fix-detail' slug=item %}">{{ value.id }}</a>
+                                <p class="submenu-text">{{ value.title|safe|truncatechars_html:40 }}</p>
+                            {% elif data_type == 'Manual Fix'%}
+                                <a href="{% url 'resolution-manual-detail' slug=item %}">{{ value.id }}</a>
+                                <p class="submenu-text">{{ value.title|safe|truncatechars_html:40 }}</p>
+                            {% elif data_type == 'Error' %}
+                                <a href="{% url 'resolutions-error-detail' slug=item %}">{{ value.id }}</a>
+                                <p class="submenu-text">{{ value.title|safe|truncatechars_html:40 }}</p>
+                            {% else %}
+                                {{ value.id }}
+                                <p class="submenu-text">{{ value.title|safe|truncatechars_html:40 }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <hr>
+            <div class="statistical-secondary-info-card top-margin-40">
+                <div class="statistical-secondary-info-title">
+                    {{ data_type }} on the move
+                </div>
+                <div class="statistical-secondary-info-body">
+                    {% for item, value in movement.items %}
+                        <div class="upper-case">
+                            {% if data_type == 'Tech Tip' %}
+                                <a href="{% url 'resolutions-tech-tip-detail' slug=item%}">{{ item }}</a>
+                                <p class="submenu-text">{{ value }}</p>
+                            {% elif data_type == 'User Fix' %}
+                                <a href="{% url 'user-fix-detail' slug=item %}">{{ item }}</a>
+                                <p class="submenu-text">{{ value }}</p>
+                            {% elif data_type == 'Manual Fix'%}
+                                <a href="{% url 'resolution-manual-detail' slug=item %}">{{ item }}</a>
+                                <p class="submenu-text">{{ value }}</p>
+                            {% elif data_type == 'Error' %}
+                                <a href="{% url 'resolutions-error-detail' slug=item %}">{{ item }}</a>
+                                <p class="submenu-text">{{ value }}</p>
+                            {% else %}
+                                {{ item }}
+                                <p class="submenu-text">{{ value }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>

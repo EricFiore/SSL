@@ -1,0 +1,32 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SSL Search</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/library.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/resolutions.css' %}">
+</head>
+<body>
+    <header class="search-header">
+        {% include 'library/user_info.html' %}
+        {% include 'library/top_nav_bar.html' %}
+    </header>
+    <section id="main-search" title="main-search">
+        <form class="site-search-form" action="" method="get" id="site-search-form">
+            {% if form.non_field_errors %}
+                {{ form.non_field_errors }}
+            {% endif %}
+            {% if form.search.errors %}
+                {{ form.search.errors }}
+            {% endif %}
+            {{ form.search }}
+            <input type="submit" value="Search">
+            {% csrf_token %}
+        </form>
+    </section>
+</body>
+</html>

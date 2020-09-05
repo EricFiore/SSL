@@ -1,0 +1,50 @@
+{% extends 'library/library_base.html' %}
+{% block content %}
+    <div class="border-bottom text-center mb-0">
+        <h1>{{ option.option_model_number }}</h1>
+    </div>
+    <div class="text-center pt-0 mt-0 mb-4">
+        <h5>Option Description:<br>{{ option.option_description }}</h5>
+    </div>
+    <div class="text-center">
+        <p>The {{ option.option_model_number }} fits onto the following models:</p>
+    </div>
+    <div class="row">
+        {% for family, models in families.items %}
+            <div class="col-md-3 p-2">
+                <div class="text-center">
+                    {{ family }}
+                </div>
+                <div>
+                    <table class="table table-sm">
+                        <thead style="border-bottom: solid 1px #dddddd">
+                            <tr>
+                                <td>Model</td>
+                                <td>Standard</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for model in models %}
+                                <tr>
+                                    {% for item in model %}
+                                        <td style="border: none">
+                                            {% if forloop.last %}
+                                                {% if item %}
+                                                    &#10003
+                                                {% else %}
+                                                    &#10005
+                                                {% endif %}
+                                            {% else %}
+                                                {{ item }}
+                                            {% endif %}
+                                        </td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

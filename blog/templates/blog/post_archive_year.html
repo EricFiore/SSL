@@ -1,0 +1,26 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+    <div class="mb-2 mt-2 pb-2 border-bottom">
+        {{ year }}
+    </div>
+    <div class="row">
+    {% for month in date_list %}
+        <div class="col-lg-4">
+            <div class="mx-auto my-1">
+            <h5><u>{{ month|date:"M" }}</u></h5>
+                <ul class="list-group list-group-flush">
+                    {% for post in context %}
+                        {% if post.date_posted|date:"m"  == month|date:"m" %}
+                            <li class="list-group-item border-0">
+                                <a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
+                                <br/>
+                                {{ post.content|truncatechars:"60" }}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock content %}

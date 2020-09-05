@@ -1,0 +1,10 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+    {% for manual in manuals %}
+        <p>{{ manual.manual_name }}</p>
+        <p>{{ manual.manual_part_num }}</p>
+        {% for model in manual.model_id.all %}
+            {{ model }}
+        {% endfor %}
+    {% endfor %}
+{% endblock content %}

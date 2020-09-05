@@ -1,0 +1,10 @@
+<section id="table-choice-form">
+    <form class="statistical-date-form" action="" method="get">
+        <div>
+            Please choose the table you would like to view
+        </div>
+        {{ table_choice_form.table }}
+        <button type="submit">Go To</button>
+        {% csrf_token %}
+    </form>
+</section>

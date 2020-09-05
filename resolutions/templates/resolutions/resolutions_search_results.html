@@ -1,0 +1,343 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0,
+    maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/library.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/resolutions.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    {% if title %}
+        <title>SSL - {{ title }}</title>
+    {% else %}
+        <title>Sharp Support Library</title>
+    {% endif %}
+</head>
+<body>
+    <header class="library-header">
+        <div class="library-header-top-row">
+            {% include 'library/user_info.html' %}
+            <div class="library-header-search">
+                <form method="get" action="">
+                    {% if form.non_field_errors %}
+                        {{ form.non_field_errors }}
+                    {% endif %}
+                    {% if form.search.errors %}
+                        {{ form.search.errors }}
+                    {% endif %}
+                    {{ form.search }}
+                    <input type="submit" value="Search">
+                    {% csrf_token %}
+                </form>
+            </div>
+        </div>
+        {% include 'library/top_nav_bar.html' %}
+    </header>
+    <section id="tab-container">
+            <div class="results-buttons">
+                <button class="btn" data-for-results="user-written">User Fixes <div class="results-count">{{ uf_count }}</div></button>
+                <button class="btn" data-for-results="tech-tips">Tech Tips <div class="results-count">{{ tip_count }}</div></button>
+                <button class="btn" data-for-results="manual">Manual Fixes <div class="results-count">{{ man_count }}</div></button>
+                <button class="btn" data-for-results="errors">Errors <div class="results-count">{{ errors_count }}</div></button>
+                <button class="btn" data-for-results="models">Models <div class="results-count">{{ model_count }}</div></button>
+            </div>
+        <div id="tech-tip-results" class="hidden results-section" data-results="tech-tips">
+            <div class="results-container">
+                <h5>database Results</h5>
+                {% for key, values in tip_results.items %}
+                    {% if key and not values.count %}
+                        <div class="search-results">
+                            <div class="search-results-title">
+                                <div class="results-key-title">
+                                    {{ key }}
+                                </div>
+                                No Title
+                            </div>
+                            <div class="search-results-body">
+                                <div style="padding: 0 10px 20px">
+                                    No search results
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        {% for tip in values %}
+                            <a href="{% url 'resolutions-tech-tip-detail' slug=tip.slug %}">
+                                <div class="search-results">
+                                    <div class="search-results-title">
+                                        <div class="results-key-title">
+                                            {{ key }}
+                                        </div>
+                                        <h5>{{ tip.tech_tip_title }}</h5>
+                                    </div>
+                                    <div class="search-results-body">
+                                        <div class="results-identifier">
+                                            {{ tip.tech_tip_number }}
+                                        </div>
+                                        <div>
+                                            {{ tip.tech_tip_content|safe|truncatechars_html:300 }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="results-container">
+                <h5>ElasticSearch Results</h5>
+                {% for key, values in es_tt.items %}
+                    {% if key and not values.count %}
+                        <div class="search-results">
+                            <div class="search-results-title">
+                                <div class="results-key-title">
+                                    {{ key }}
+                                </div>
+                                No Title
+                            </div>
+                            <div class="search-results-body">
+                                <div style="padding: 0 10px 20px">
+                                    Either no search results were found or results were duplicated by database search.
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        {% for tip in values %}
+                            <a href="{% url 'resolutions-tech-tip-detail' slug=tip.slug %}">
+                                <div class="search-results">
+                                    <div class="search-results-title">
+                                        <div class="results-key-title">
+                                            {{ key }}
+                                        </div>
+                                        <h5>{{ tip.tech_tip_title }}</h5>
+                                    </div>
+                                    <div class="search-results-body">
+                                        <div class="results-identifier">
+                                            {{ tip.tech_tip_number }}
+                                        </div>
+                                        <div>
+                                            {{ tip.tech_tip_content|safe|truncatechars_html:300 }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div id="user-written-results" class="hidden results-section" data-results="user-written">
+            <div class="results-container">
+                <h5>database Results</h5>
+                {% for key, values in custom_fixes.items %}
+                    {% if key and not values.count %}
+                        <div class="search-results">
+                            <div class="search-results-title">
+                                <div class="results-key-title">
+                                    {{ key }}
+                                </div>
+                                No Title
+                            </div>
+                            <div class="search-results-body">
+                                <div style="padding: 0 10px 20px">
+                                    No results found.
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        {% for fix in values %}
+                            <a href="{% url 'user-fix-detail' slug=fix.slug %}">
+                                <div class="search-results">
+                                    <div class="search-results-title">
+                                        <div class="results-key-title">
+                                            {{ key }}
+                                        </div>
+                                        <h5>{{ fix.symptoms }}</h5>
+                                    </div>
+                                    <div class="search-results-body">
+                                        <div class="results-identifier">
+                                            {{ fix.slug }}
+                                        </div>
+                                        <div>
+                                            {{ fix.steps_to_fix_error|safe|truncatechars_html:300 }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="results-container">
+                <h5>ElasticSearch Results</h5>
+                {% for key, values in es_uf.items %}
+                    {% if key and not values.count %}
+                        <div class="search-results">
+                            <div class="search-results-title">
+                                <div class="results-key-title">
+                                    {{ key }}
+                                </div>
+                                No Title
+                            </div>
+                            <div class="search-results-body">
+                                <div style="padding: 0 10px 20px">
+                                    Either no search results were found or results were duplicated by database search.
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        {% for fix in values %}
+                            <a href="{% url 'user-fix-detail' slug=fix.slug %}">
+                                <div class="search-results">
+                                    <div class="search-results-title">
+                                        <div class="results-key-title">
+                                            {{ key }}
+                                        </div>
+                                        <h5>{{ fix.symptoms }}</h5>
+                                    </div>
+                                    <div class="search-results-body">
+                                        <div class="results-identifier">
+                                            {{ fix.slug }}
+                                        </div>
+                                        <div>
+                                            {{ fix.steps_to_fix_error|safe|truncatechars_html:300 }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div id="user-written-results" class="hidden results-section" data-results="manual">
+            <div class="results-container">
+                <h5>database Results</h5>
+                {% for key, values in man_results.items %}
+                    {% if key and not values.count %}
+                        <div class="search-results">
+                            <div class="search-results-title">
+                                <div class="results-key-title">
+                                    {{ key }}
+                                </div>
+                                No Title
+                            </div>
+                            <div class="search-results-body">
+                                <div style="padding: 0 10px 20px">
+                                    No results found.
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        {% for fix in values %}
+                            <a href="{% url 'resolution-manual-detail' slug=fix.slug %}">
+                                <div class="search-results">
+                                    <div class="search-results-title">
+                                        <div class="results-key-title">
+                                            {{ key }}
+                                        </div>
+                                        <h5>{{ fix.slug }}</h5>
+                                    </div>
+                                    <div class="search-results-body">
+                                        <div>
+                                            {{ fix.steps_to_fix_error|safe|truncatechars_html:300 }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="results-container">
+                <h5>ElasticSearch Results</h5>
+                {% for key, values in es_man.items %}
+                    {% if key and not values.count %}
+                        <div class="search-results">
+                            <div class="search-results-title">
+                                <div class="results-key-title">
+                                    {{ key }}
+                                </div>
+                                No Title
+                            </div>
+                            <div class="search-results-body">
+                                <div style="padding: 0 10px 20px">
+                                    Either no search results were found or results were duplicated by database search.
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        {% for fix in values %}
+                            <a href="{% url 'resolution-manual-detail' slug=fix.slug %}">
+                                <div class="search-results">
+                                    <div class="search-results-title">
+                                        <div class="results-key-title">
+                                            {{ key }}
+                                        </div>
+                                        <h5>{{ fix.slug }}</h5>
+                                    </div>
+                                    <div class="search-results-body">
+                                        <div>
+                                            {{ fix.steps_to_fix_error|safe|truncatechars_html:300 }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div id="error-results" class="hidden results-section" data-results="errors">
+            <div class="results-container-error-model">
+                {% for key, values in errors.items %}
+                    {% for value in values %}
+                        <a href="{% url 'resolutions-error-detail' slug=value.slug %}">
+                        <div class="search-results">
+                            <div class="search-results-title">
+                                <div>
+                                    <h5>{{ value.error_name }}</h5>
+                                </div>
+                                <div>
+                                    {{ value.error_title }}
+                                </div>
+                            </div>
+                            <div class="search-results-body">
+                                {{ value.error_description|truncatechars:300 }}
+                            </div>
+                        </div>
+                        </a>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+        <div id="model-results" class="hidden results-section" data-results="models">
+            <div class="results-container-error-model">
+                {% for key, values in models.items %}
+                    {% for value in values %}
+                        <a href="#">
+                            <div class="search-results">
+                                <div class="search-results-title">
+                                    <div>
+                                        <h5>{{ value.model_number }}</h5>
+                                    </div>
+                                </div>
+                                <div class="search-results-body">
+                                    {{ value.model_description|truncatechars:300 }}
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script type="application/javascript" src="{% static 'blog/resultsTabSelector.js' %}"></script>
+</body>
+</html>

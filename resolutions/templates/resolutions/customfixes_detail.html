@@ -1,0 +1,62 @@
+{% extends 'library/library_base.html' %}
+{% block content %}
+    <section>
+        <div class="library-center-text library-top-margin">
+            <h3>User Fix for:</h3>
+            <div class="small-top-list">
+                {% for error in user_fix.repairs_error.all %}
+                    {% if forloop.last %}
+                        {{ error }}
+                    {% else %}
+                        {{ error }},
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <section class="library-firmware-list-flex flex-center-items">
+        <div class="paper res-steps">
+            <div class="paper-title library-flex flex-opposite-ends-flex">
+                <div>
+                    <img class="small-image" src="{{ user_fix.author.image.url }}" alt="author picture">
+                    {{ user_fix.author.user }}
+                </div>
+                <div class="align-right">
+                    Created On: {{ user_fix.created_on_date|date:'M d Y' }}<br>
+                    Edited On: {{ user_fix.modified_on_date|    date:'M d Y' }}
+                </div>
+                <div class="library-center-text library-center-div" style="padding: 5px 0 0">
+                    Symptoms include:<br>
+                    {{ user_fix.symptoms }}
+                </div>
+            </div>
+            <div class="library-center-div">
+                {{ user_fix.steps_to_fix_error|safe }}
+            </div>
+        </div>
+        <div class="paper res-steps">
+            <div class="library-center-div small-list library-center-text">
+                <div>
+                    Works On:
+                </div>
+                <div>
+                    {% for model in user_fix.model_id.all %}
+                        {{ model.model_number }}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="library-top-margin">
+        <div class="library-center-text x-small-list">
+            <a class="link res-fix-detail-link-padding" href="{% url 'user-fix-update' slug=user_fix.id_number %}">EDIT HERE</a>
+            <a class="link res-fix-detail-link-padding" href="{% url 'user-fix-delete' slug=user_fix.id_number %}">DELETE HERE</a>
+        </div>
+        <div class="res-tt-small-list library-center-text">
+            <div class="top-margin-20">
+                FIX ID: {{ user_fix.id_number }}
+            </div>
+        </div>
+    </section>
+    {% include 'resolutions/comments.html' %}
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'library/library_base.html' %}
+{% block content %}
+    <section id="message-page-title" class="messages-banner">
+        <div class="library-center-text">
+            <p style="padding: 0 10px 0">Messages for {{ user.user }}</p>
+        </div>
+        <div class="library-center-text">
+            <button class="message-title-links" id="new-message">new</button>
+            <div class="new-message-container" id="new-message-container">
+                <form class="new-message-form hidden" method="post" id="new-message-form" action="" name="new-message-form">
+                    {{ new_message_form.body }}
+                    <br>
+                    {{ new_message_form.send_to.label }}
+                    {{ new_message_form.send_to }}
+                    <button type="submit">send</button>
+                    {% csrf_token %}
+                </form>
+            </div>
+        </div>
+    </section>
+    <section id="user-messages" class="top-margin-40">
+        {% for user_message in user_messages %}
+            <div id="message-individual-container" class="message-individual-container">
+                <div id="message-individual" class="message-individual">
+                    <div style="padding: 5px">
+                        <div class="message-individual-title">
+                            <span>{{ user_message.author }}</span> sent on <span>{{ user_message.date|date:'n/j/y' }} at {{ user_message.date|date:'g:i a ' }}</span>
+                        </div>
+                        <div class="message-individual-body">
+                            {{ user_message.body }}
+                        </div>
+                        <div class="message-individual-footer">
+                            <p class="message-reply-button" data-id="{{ user_message.message_id }}">reply</p> <a href="{% url 'message-delete' pk=user_message.message_id %}">delete</a>
+                        </div>
+                    </div>
+                </div>
+                <div id="reply-message-{{ user_message.message_id }}" class="reply-message-container hidden">
+                    <form class="reply-message-form" method="post" action="" name="new-message-form">
+                        {{ new_message_form.body }}
+                        <br>
+                        <div data-reply="{{ user_message.author }}" id="send-to-{{ user_message.message_id }}">{{ new_message_form.send_to }}</div>
+                        <button class="reply-message-button" type="submit">send</button>
+                        {% csrf_token %}
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+        <div id="paginator-links" class="message-paginator-section">
+            <span>
+                {% if page_obj.has_previous %}
+                    {% if page_obj.previous_page_number != 1 %}
+                        <button><a href="?page=1">first</a></button>
+                        <button><a href="?page={{ page_obj.previous_page_number }}">previous</a></button>
+                    {% else %}
+                        <button><a href="?page=1">first</a></button>
+                    {% endif %}
+                {% endif %}
+                <span>
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+                {% if page_obj.has_next %}
+                    {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+                        <button><a href="?page={{ page_obj.next_page_number }}">next</a></button>
+                        <button><a href="?page={{ page_obj.paginator.num_pages }}">last</a></button>
+                    {% else %}
+                        <button><a href="?page={{ page_obj.paginator.num_pages }}">last</a></button>
+                    {% endif %}
+                {% endif %}
+            </span>
+        </div>
+    </section>
+{% endblock %}

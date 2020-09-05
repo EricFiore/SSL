@@ -1,0 +1,44 @@
+{% extends 'library/library_base.html' %}
+{% load trackingfilters %}
+{% block content %}
+    <section id="tech-tip-statistics-header">
+        <h3 style="text-transform: uppercase" class="library-top-margin library-center-text">Statistics for {{ data_type }} stored on SSL</h3>
+        {% include 'resolutions/stastical_choice_form.html' %}
+        <hr class="library-family-hr">
+    </section>
+    <div class="library-flex" style="justify-content: space-between; margin-top: 30px">
+        <section style="width: 75%" id="statistics-for-time-period-x">
+            <div>
+                <div>
+                    <form class="statistical-date-form" action="" method="get">
+                        below is the total views for the dates<br>{{ date_form.period_start }} through {{ date_form.period_end }}
+                        <div id="form-errors">
+                            {% for key, error in date_form.errors.items %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                        <div>
+                            <button type="submit">Filter</button>
+                        </div>
+                        {% csrf_token %}
+                    </form>
+                </div>
+                <table class="daily-views-table">
+                    <tr>
+                        <th>Sunday</th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Saturday</th>
+                    </tr>
+                    {% if daily_views %}
+                        {% cal_fill daily_views %}
+                    {% endif %}
+                </table>
+            </div>
+        </section>
+        {% include 'resolutions/statistical_sidebar.html' %}
+    </div>
+{% endblock %}

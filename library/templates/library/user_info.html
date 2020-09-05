@@ -1,0 +1,26 @@
+<div class="library-header-user-info">
+    {% if user %}
+        <div class="library-account-picture">
+            <img class="library-icon-small library-round-pic" src="{{ user.image.url }}" alt="user image">
+            <div>
+                <ul>
+                    <li><p><a href="{% url 'logout' %}">Logout</a></p></li>
+                    <li><p><a href="{% url 'message-list' %}">Messages</a></p></li>
+                </ul>
+            </div>
+        </div>
+    {% else %}
+        <div class="library-account-picture">
+            <img class="library-icon-small" src="/media/site_photos/anonymuos.svg" alt="">
+            <div>
+                <ul>
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+{#    <div class="library-flex-spacing">#}
+{#        <img class="library-icon-x-small" src="/media/site_photos/hamburger-menu-icon.svg" alt="">#}
+{#    </div>#}
+</div>

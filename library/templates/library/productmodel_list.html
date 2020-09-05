@@ -1,0 +1,19 @@
+{% extends 'library/library_base.html' %}
+{% block content %}
+    <section>
+        <div class="library-center-text library-top-margin">
+            <h2>{{ models.first.family_id }} Models</h2>
+            <hr class="library-family-hr">
+        </div>
+    </section>
+    <section>
+        <div class="library-center-div">
+            <table>
+                <tr>
+                    <th>Model</th>
+                    <th>Current Firmware</th>
+                </tr>
+            </table>
+        </div>
+    </section>
+{% endblock content %}

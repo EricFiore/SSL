@@ -1,0 +1,34 @@
+{% extends 'library/library_base.html' %}
+{% block content%}
+    <section class="library-center-text library-top-margin">
+        <div>
+            <h2>Firmware Version {{ firmware.version }}</h2>
+        </div>
+        <h4>Works on:</h4>
+        <div style="width: 600px; justify-content: space-evenly" class="library-center-div library-flex">
+            {% for model in firmware.model_id.all %}
+                {% if forloop.last %}
+                    <div style="flex: 200px">
+                        {{ model }}
+                    </div>
+                {% else %}
+                    <div style="flex: 200px">
+                        {{ model }},
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <hr class="library-family-hr">
+    </section>
+    <section>
+        <div class="paper library-center-div">
+            <div style="width: 90%; margin: 0 auto">
+                <div class="library-center-text library-top-margin">
+                    <div>{{ firmware.type }} Firmware</div>
+                    <div>{{ firmware.description }}</div>
+                </div>
+                {{ firmware.changes|safe }}
+            </div>
+        </div>
+    </section>
+{% endblock content %}
