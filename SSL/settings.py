@@ -25,9 +25,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-# # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'nl^#t$ua8!=2u_y9o38w!z15^w!db36c429o-lub^-dhowrd2k'
-
 with open('/home/ericfiore/PycharmProjects/sslconfig.json') as config_file:
     config = json.load(config_file)
 
