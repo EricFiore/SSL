@@ -14,8 +14,8 @@ urlpatterns = [
     path('manual/', ManualFixListView.as_view(), name='resolution-manual'),
     path('manual/<slug:slug>/', ManualFixDetail.as_view(), name='resolution-manual-detail'),
     path('fix/', CustomFixesListView.as_view(), name='user-fix'),
-    path('fix/<slug:slug>/', CustomFixesDetail.as_view(), name='user-fix-detail'),
     path('fix/new/', CustomFixesCreateView.as_view(), name='user-fix-create'),
+    path('fix/<slug:slug>/', CustomFixesDetail.as_view(), name='user-fix-detail'),
     path('fix/update/<slug:slug>/', CustomFixesUpdateView.as_view(), name='user-fix-update'),
     path('fix/delete/<slug:slug>/', CustomFixDeleteView.as_view(), name='user-fix-delete')
 ]

@@ -153,8 +153,8 @@ class FirmwareListView(ListView):
     qs = {}
     queried_families = []
     queried_types = []
-    start_date = list(Firmware.objects.aggregate(Min('release_date')).values())[0].strftime('%Y-%m-%d')
-    end_date = datetime.date.today().strftime('%Y-%m-%d')
+    #start_date = list(Firmware.objects.aggregate(Min('release_date')).values())[0].strftime('%Y-%m-%d')
+    #end_date = datetime.date.today().strftime('%Y-%m-%d')
 
     def get(self, request, *args, **kwargs):
         self.queried_types = request.GET.getlist("type")
